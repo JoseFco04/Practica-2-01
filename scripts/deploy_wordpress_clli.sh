@@ -30,7 +30,7 @@ rm -rf /var/www/html/*
 #Descargarmos el codigo fuente de wordpress en /var/www/html
 wp core download --path=/var/www/html --locale=es_ES --allow-root
 
-# Creamos la base de la bbase de datos y el usuario de la base de datos.
+# Creamos la base de datos y el usuario
 mysql -u root <<< "DROP DATABASE IF EXISTS $WORDPRESS_DB_NAME"
 mysql -u root <<< "CREATE DATABASE $WORDPRESS_DB_NAME"
 mysql -u root <<< "DROP USER IF EXISTS $WORDPRESS_DB_USER@$IP_CLIENTE_MYSQL"

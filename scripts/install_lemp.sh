@@ -19,7 +19,7 @@ apt install mysql-server -y
 apt install php-fpm php-mysql -y
 
 # Copiamos el contenido de default de default a /etc/nginx/sites-available/
-cp ../conf/default /etc/nginx/sites-available/default
+cp ../conf/000-default.conf /etc/nginx/sites-available/000-default.conf
 
 # Reiniciamos el servicio de nginx
 systemctl restart nginx

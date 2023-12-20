@@ -186,5 +186,35 @@ certbot --nginx -m $CERTIFICATE_EMAIL --agree-tos --no-eff-email -d $CERTIFICATE
 ### Una vez ejecutado los scrpits ya tendríamos el wordpress instalado en el servidor web nginx 
 ### También hay que recordar que el 000-default.conf es distinto al no ser en apache. Se vería así
 ~~~
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
 
+        root /var/www/html;
+
+        index index.php index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                # Primer intento para pedir un servicio como un archivo, después
+                # como directorio, luego vuelve a mostrar un error 404.
+                index index.php index.html index.htm;
+                try_files $uri $uri/ /index.php?$args;
+        }
+
+        # pasar PHP scripts a FastCGI server
+        #
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                # Con php-fpm (o otros sockets de unix):
+                fastcgi_pass unix:/run/php/php8.1-fpm.sock;
+        }
+
+        # denegar el acceso a archivos .htaccess, si el documento de root de apache
+        # coincide entonce vamos con el de nginx
+        location ~ /\.ht {
+                deny all;
+        }
+}
 ~~~
